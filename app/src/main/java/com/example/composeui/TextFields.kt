@@ -16,9 +16,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,18 +29,20 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun Example(
+    vm: LoginScreenViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
+    val dataFromVM by vm.uiState.collectAsState()
 
-    var username by remember {
-        mutableStateOf("")
-    }
+//    var username by rememberSaveable {
+//        mutableStateOf("")
+//    }
 
-    var password by remember {
+    var password by rememberSaveable {
         mutableStateOf("")
     }
 
@@ -55,8 +58,8 @@ fun Example(
         CustomTextField(
             leadingIcon = R.drawable.user_24px,
             labelString = stringResource(id = R.string.username),
-            value = username,
-            onValueChanged = { username = it },
+            value = dataFromVM.username,
+            onValueChanged = { vm.updateUsername(it) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
