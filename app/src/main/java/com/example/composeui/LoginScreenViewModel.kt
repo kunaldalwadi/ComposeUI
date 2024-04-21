@@ -9,6 +9,7 @@ class LoginScreenViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(DataWeTrack())
     val uiState = _uiState.asStateFlow()
+
     fun updateUsername(usernameInput: String) {
         _uiState.update { DataWeTrack(username = usernameInput) }
     }
