@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -15,10 +19,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -28,8 +34,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.composeui.ui.screens.LoginScreenViewModel
 import com.example.composeui.R
+import com.example.composeui.ui.screens.LoginScreenViewModel
 
 @Composable
 fun Example(
@@ -72,10 +78,11 @@ fun Example(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
-            modifier = modifier
+            modifier = modifier,
         )
         CustomTextField(
             leadingIcon = R.drawable.password_24px,
+            trailingIcon = R.drawable.login_24px,
             labelString = stringResource(id = R.string.password),
             value = password,
             onValueChanged = { password = it },
@@ -83,7 +90,8 @@ fun Example(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             ),
-            modifier = modifier
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = modifier,
         )
         Button(onClick = gotoButtonScreen) {
             Text(text = "Go to Button Screen")
@@ -93,11 +101,13 @@ fun Example(
 
 @Composable
 fun CustomTextField(
-    @DrawableRes leadingIcon: Int,
+    @DrawableRes leadingIcon: Int? = null,
+    @DrawableRes trailingIcon: Int? = null,
     labelString: String,
     value: String,
     onValueChanged: (String) -> Unit,
     keyboardOptions: KeyboardOptions,
+    visualTransformation: VisualTransformation = VisualTransformation.None,
     modifier: Modifier = Modifier
 ) {
     OutlinedTextField(
@@ -120,10 +130,22 @@ fun CustomTextField(
             }
         },
         leadingIcon = {
-            Icon(
-                painter = painterResource(id = leadingIcon),
-                contentDescription = null
-            )
+            // If you want to provide a drawable you can do it this way
+            leadingIcon?.let { painterResource(id = it) }?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = null
+                )
+            }
+        },
+        trailingIcon = {
+            // If you want to provide a drawable you can do it this way
+            trailingIcon?.let { painterResource(id = it) }?.let {
+                Icon(
+                    painter = it,
+                    contentDescription = null
+                )
+            }
         },
         value = value,
         singleLine = true,
@@ -135,7 +157,8 @@ fun CustomTextField(
             disabledContainerColor = MaterialTheme.colorScheme.surface,
         ),
         onValueChange = onValueChanged,
-        keyboardOptions = keyboardOptions
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation
     )
 }
 
