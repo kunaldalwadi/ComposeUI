@@ -1,15 +1,11 @@
-package com.example.composeui
+package com.example.composeui.ui.customui
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -27,12 +23,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.composeui.ui.screens.LoginScreenViewModel
+import com.example.composeui.R
 
 @Composable
 fun Example(
+    gotoButtonScreen: () -> Unit,
     vm: LoginScreenViewModel = viewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -50,11 +51,18 @@ fun Example(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .statusBarsPadding()
-            .padding(16.dp)
-            .safeDrawingPadding()
-            .verticalScroll(rememberScrollState()),
     ) {
+        CustomTextField(
+            leadingIcon = R.drawable.edit_24px,
+            labelString = stringResource(id = R.string.nickname),
+            value = vm.nickname,
+            onValueChanged = { vm.updateNickName(it) },
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Next
+            ),
+            modifier = modifier
+        )
         CustomTextField(
             leadingIcon = R.drawable.user_24px,
             labelString = stringResource(id = R.string.username),
@@ -66,7 +74,6 @@ fun Example(
             ),
             modifier = modifier
         )
-
         CustomTextField(
             leadingIcon = R.drawable.password_24px,
             labelString = stringResource(id = R.string.password),
@@ -78,6 +85,9 @@ fun Example(
             ),
             modifier = modifier
         )
+        Button(onClick = gotoButtonScreen) {
+            Text(text = "Go to Button Screen")
+        }
     }
 }
 
@@ -93,6 +103,11 @@ fun CustomTextField(
     OutlinedTextField(
         label = {
             when (labelString) {
+                "nickname" ->
+                    Text(
+                        text = stringResource(id = R.string.nickname)
+                    )
+
                 "username" ->
                     Text(
                         text = stringResource(id = R.string.username)
@@ -128,5 +143,5 @@ fun CustomTextField(
 @Preview(showBackground = true)
 @Composable
 fun ExamplePreview() {
-    Example()
+    Example({})
 }
