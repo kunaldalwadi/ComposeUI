@@ -1,6 +1,28 @@
 <resources>
     <string name="app_name">ComposeUI</string>
-    <string name="username">username</string>
-    <string name="password">password</string>
     <string name="nickname">nickname</string>
+
+
+    // Login Screen
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="Or">or</string>
+    <string name="sign_up_gmail">Sign up with Gmail</string>
+    <string name="sign_up_email">Sign up with Email</string>
+    <string name="server_client_id">202923654966-s4m42lqs459cie24um2h57e3ra6abtjh.apps.googleusercontent.com</string>
+    <string name="login">Login</string>
+    // end region
+
+
+    // Register Screen
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="register">Register</string>
+    <string name="by_continuing_you_accept_our">By continuing you accept our </string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="and">and</string>
+    <string name="terms_of_service">Terms of Service</string>
+    // end region
 </resources>

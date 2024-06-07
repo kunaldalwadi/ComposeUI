@@ -1,16 +1,13 @@
 package com.example.composeui.ui.customui
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -19,12 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -159,6 +154,52 @@ fun CustomTextField(
         onValueChange = onValueChanged,
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation
+    )
+}
+
+
+/**
+ * Added this custom CredentialsTextField
+ * TO be used with all Login and Registration TextFields
+ */
+@Composable
+fun CredentialTextField(
+    @StringRes label: Int,
+    @DrawableRes leadingIcon: Int,
+    @DrawableRes trailingIcon: Int?,
+    value: String,
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions,
+    visualTransformation: VisualTransformation,
+    modifier: Modifier = Modifier
+) {
+    OutlinedTextField(
+        label = { Text(text = stringResource(id = label)) },
+        leadingIcon = {
+            Icon(
+                painter = painterResource(id = leadingIcon),
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        trailingIcon = {
+            trailingIcon?.let { painterResource(id = it) }
+                ?.let { Icon(painter = it, contentDescription = null) }
+        },
+        value = value,
+        onValueChange = onValueChange,
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        shape = MaterialTheme.shapes.large,
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            cursorColor = MaterialTheme.colorScheme.primary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceTint,
+            errorContainerColor = MaterialTheme.colorScheme.error
+        ),
+        modifier = modifier
     )
 }
 
